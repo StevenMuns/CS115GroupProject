@@ -167,7 +167,7 @@ def h():
 
 def choices():
     '''Provides menu options and handles user input
-    Written by Steven Munson, Modified by Emma Millet '''
+    Written by Steven Munson & Emma Millet '''
 
     choice = input("Enter a letter to choose an option:\ne - Enter preferences\nr - Get recommendations\np - Show most popular artists\nh - How popular is the most popular\nm - Which user has the most likes\nq - Save and quit\n")
    
@@ -180,7 +180,15 @@ def choices():
         if choice == 'm': m()
         else:
             choice = input("Enter a letter to choose an option:\ne - Enter preferences\nr - Get recommendations\np - Show most popular artists\nh - How popular is the most popular\nm - Which user has the most likes\nq - Save and quit\n")
+    
 
+    with open('musicrecplus.txt', "r+") as file:
+        for user in globalDict:
+            file.truncate()
+            file.seek(0)
+            file.write(str(user) + ":" + ",".join(globalDict[user]) +
+                    "\n")
+    file.close()
 try:
     with open('musicrecplus_ex2_b.txt', 'x') as f:
         f.write('')

@@ -97,6 +97,45 @@ def numMatches(list1, list2):
             j += 1
     return matches
 
+def p():
+    a = []
+    for key in f:
+        if key[-1] != '$':
+            a.append(key)
+
+    L = []
+    for x in a:
+        for b in f[x]:
+            L.append(b)
+    
+    y = []
+    for x in L:
+        if x not in y:
+            y.append(x)
+    
+    d = {}
+    for x in y:
+        d.update({x: L.count(x)})
+        L.remove(x)
+    
+    c = dict(sorted(d.items(), key=lambda item: item[1]))
+    
+    if len(c) == 0:
+        print("Sorry , no artists found.")
+        return choices()
+
+    elif len(c) < 3:
+        w = list(c.keys())
+        for x in range(len(c)):
+            print(w[x])
+        return choices()
+    else:
+        w = list(c.keys())
+        for x in range(3):
+            print(w[-1])
+            w = w[:-1]
+        return choices()
+
 def choices():
     choice = input("Enter a letter to choose an option:\ne - Enter preferences\nr - Get recommendations\np - Show most popular artists\nh - How popular is the most popular\nm - Which user has the most likes\nq - Save and quit\n")
     choices = ['e', 'r', 'p', 'h', 'm']
@@ -129,7 +168,6 @@ if name_artists not in f:
     
 else:
     choices()
-
 
 
 

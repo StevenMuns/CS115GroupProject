@@ -196,19 +196,19 @@ def choices():
         else:
             choice = input("Enter a letter to choose an option:\ne - Enter preferences\nr - Get recommendations\np - Show most popular artists\nh - How popular is the most popular\nm - Which user has the most likes\nq - Save and quit\n")
 
-with open('musicrecplus.txt', "r+") as file:
-        for user in globalDict:
-            file.truncate()
-            file.seek(0)
-            file.write(str(user) + ":" + ",".join(globalDict[user]) +
-                    "\n")
+    with open('musicrecplus.txt', "r+") as file:
+            for user in globalDict:
+                file.truncate()
+                file.seek(0)
+                file.write(str(user) + ":" + ",".join(globalDict[user]) +
+                        "\n")
     file.close()
 
 try:
-    with open('red.txt', 'x') as f:
+    with open('musicrecplus.txt', 'x') as f:
         f.write('')
 except FileExistsError:
-    f = read_preferences("red.txt")
+    f = read_preferences("musicrecplus.txt")
 
 name_artists = input("Enter your name (put a $ symbol after your name if you wish your preferences to remain private): ")
 global globalUsername

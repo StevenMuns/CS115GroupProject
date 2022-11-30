@@ -4,6 +4,8 @@
 
 
 def read_preferences(filename):
+    '''DESCRIPTION HERE
+    Steven Munson'''
     dictionary = {}
     with open(filename, "r") as f:
         if f == '':
@@ -18,19 +20,23 @@ def read_preferences(filename):
     return dictionary
 
 def appArtists(d, u):
+    '''DESCRIPTION HERE
+    Steven Munson, edited by Emma Millet'''
     a = input("Enter an artist that you like (Enter to finish): ")
     if a == '':
         b = {u:[]}
         b[u] = sorted(d[u])
         return b
-    x = a[1:].casefold()
-    y = a[0].capitalize() + x
+    # removed casefold because of artists like TMBG that are in all caps.
+    y = a[0].capitalize() + a[1:]
     if y in d[u]:
         return appArtists(d, u)
     d[u].append(y)
     return appArtists(d, u)
 
 def e():
+    '''DESCRIPTION HERE
+    Steven Munson'''
     f.pop(name_artists)
     a = {name_artists: []}
     f.update(appArtists(a, name_artists))
@@ -38,7 +44,8 @@ def e():
     choices()
 
 def r():
-    """ 
+    """ prints recommended artists to the user. 
+        if no recommendations are found, prints "no preferences available at this time"
         Emma Millet
     """
     dictionary = globalDict
@@ -83,7 +90,7 @@ def edit(list1, list2):
 
 def numMatches(list1, list2):
     """ return the num of elements that match between two sorted lists
-         taken from textbook
+         taken from textbook ; Emma Millet
     """
     matches, i, j = 0, 0, 0
     while i < len(list1) and j < len(list2):
@@ -97,9 +104,12 @@ def numMatches(list1, list2):
             j += 1
     return matches
 
-def p():
+
+def popDictMaker():
+    ''' DESCRIPTION HERE
+    Steven Munson, edited by Emma Millet'''
     a = []
-    for key in f:
+    for key in globalDict:
         if key[-1] != '$':
             a.append(key)
 
@@ -119,7 +129,11 @@ def p():
         L.remove(x)
     
     c = dict(sorted(d.items(), key=lambda item: item[1]))
-    
+    return c
+def p():
+    '''DESCRIPTION HERE
+    Steven Munson'''
+    c = popDictMaker()
     if len(c) == 0:
         print("Sorry , no artists found.")
         return choices()
@@ -136,9 +150,27 @@ def p():
             w = w[:-1]
         return choices()
 
+def h():
+    '''Prints number of likes the most popular artist recieved. If there are no artists found, prints "Sorry, no artists found."
+    Emma Millet'''
+    c = popDictMaker()
+    biggest = -1
+
+    if c != {}:
+        for artist in c:
+            if c[artist] >= biggest:
+                biggest = c[artist]
+        print(biggest)
+    else:
+        print("Sorry, no artists found.")
+    return choices()
+
 def choices():
+    '''Provides menu options and handles user input
+    Written by Steven Munson, Modified by Emma Millet '''
+
     choice = input("Enter a letter to choose an option:\ne - Enter preferences\nr - Get recommendations\np - Show most popular artists\nh - How popular is the most popular\nm - Which user has the most likes\nq - Save and quit\n")
-    choices = ['e', 'r', 'p', 'h', 'm']
+   
 
     while choice != 'q':
         if choice == 'e': e()
@@ -168,26 +200,3 @@ if name_artists not in f:
     
 else:
     choices()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

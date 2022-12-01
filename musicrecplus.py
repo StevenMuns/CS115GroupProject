@@ -104,6 +104,71 @@ def numMatches(list1, list2):
 
 def popDictMaker():
     ''' Returns a dictionary sorted by lowest frequently occuring artists to highest frequently returning artists 
+    choices()
+
+def r():
+    """ prints recommended artists to the user.
+        if no recommendations are found, prints "no preferences available at this time"
+        Emma Millet
+    """
+    dictionary = globalDict
+    username = globalUsername
+
+    if len(dictionary.keys()) == 1:
+        return print("No preferences available at this time.")
+    prefs = dictionary.get(username)
+   
+    best = -1
+    prefs = dictionary.get(username)
+
+    bestUser = ""
+    for user in dictionary.keys():
+        if user[-1] == "$":
+            continue
+        else:
+            score = numMatches(prefs, dictionary[user])
+            if score > best and username != user:
+                best = score
+                bestUser = user
+   
+    rec = []
+    for item in dictionary.get(bestUser):
+        if ((item in prefs) != True):
+            rec += [item]
+   
+    if (rec == []):
+        return print("No preferences available at this time.")
+    for artist in rec:
+        print(artist)
+
+def edit(list1, list2):
+    """returns a new list that contains only the elements in list2 not in list1
+        Emma Millet
+    """
+    newL = []
+    for item in list2:
+        if ((item in list1) != True):
+            newL += [item]
+    return newL
+
+def numMatches(list1, list2):
+    """ return the num of elements that match between two sorted lists
+         taken from textbook ; Emma Millet
+    """
+    matches, i, j = 0, 0, 0
+    while i < len(list1) and j < len(list2):
+        if list1[i] == list2[j]:
+            matches += 1
+            i += 1
+            j += 1
+        elif list1[i] < list2[j]:
+            i += 1
+        else:
+            j += 1
+    return matches
+
+def popDictMaker():
+    ''' Returns a dictionary sorted by lowest frequently occuring artists to highest frequently returning artists 
     Steven Munson, edited by Emma Millet'''
     a = []
     for key in globalDict:
@@ -198,6 +263,11 @@ def choices():
 
     with open('musicrecplus.txt', "r+") as file:
             for user in globalDict:
+                file.truncate()
+                file.seek(0)
+                file.write(str(user) + ":" + ",".join(globalDict[user]) +
+                        "\n")
+            for user in globalDict:
                 
                 file.write(str(user) + ":" + ",".join(globalDict[user]) +
                         "\n")
@@ -207,6 +277,8 @@ try:
     with open('musicrecplus.txt', 'x') as f:
         f.write('')
 except FileExistsError:
+    f = read_preferences("musicrecplus.txt")
+
     pass
 
 f = read_preferences("musicrecplus.txt")

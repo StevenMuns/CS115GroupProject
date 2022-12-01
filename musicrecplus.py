@@ -102,9 +102,7 @@ def numMatches(list1, list2):
             j += 1
     return matches
 
-def popDictMaker():
-    ''' Returns a dictionary sorted by lowest frequently occuring artists to highest frequently returning artists 
-    choices()
+
 
 def r():
     """ prints recommended artists to the user.
@@ -268,7 +266,6 @@ def choices():
                 file.write(str(user) + ":" + ",".join(globalDict[user]) +
                         "\n")
             for user in globalDict:
-                
                 file.write(str(user) + ":" + ",".join(globalDict[user]) +
                         "\n")
     file.close()
@@ -277,8 +274,6 @@ try:
     with open('musicrecplus.txt', 'x') as f:
         f.write('')
 except FileExistsError:
-    f = read_preferences("musicrecplus.txt")
-
     pass
 
 f = read_preferences("musicrecplus.txt")

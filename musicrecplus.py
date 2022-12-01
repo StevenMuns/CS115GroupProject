@@ -1,8 +1,6 @@
 #Steven Munson and Emma Millet
 #I pledge my honor that I have abided by the Stevens Honor System
 
-
-
 def read_preferences(filename):
     '''Returns the plain text of filename to a dictionary containing users and their aritist preferences
     Steven Munson'''
@@ -75,79 +73,6 @@ def r():
         return print("No preferences available at this time.")
     for artist in rec:
         print(artist)
-
-def edit(list1, list2):
-    """returns a new list that contains only the elements in list2 not in list1
-        Emma Millet
-    """
-    newL = []
-    for item in list2:
-        if ((item in list1) != True):
-            newL += [item]
-    return newL
-
-def numMatches(list1, list2):
-    """ return the num of elements that match between two sorted lists
-         taken from textbook ; Emma Millet
-    """
-    matches, i, j = 0, 0, 0
-    while i < len(list1) and j < len(list2):
-        if list1[i] == list2[j]:
-            matches += 1
-            i += 1
-            j += 1
-        elif list1[i] < list2[j]:
-            i += 1
-        else:
-            j += 1
-    return matches
-
-
-
-def r():
-    """ prints recommended artists to the user.
-        if no recommendations are found, prints "no preferences available at this time"
-        Emma Millet
-    """
-    dictionary = globalDict
-    username = globalUsername
-
-    if len(dictionary.keys()) == 1:
-        return print("No preferences available at this time.")
-    prefs = dictionary.get(username)
-   
-    best = -1
-    prefs = dictionary.get(username)
-
-    bestUser = ""
-    for user in dictionary.keys():
-        if user[-1] == "$":
-            continue
-        else:
-            score = numMatches(prefs, dictionary[user])
-            if score > best and username != user:
-                best = score
-                bestUser = user
-   
-    rec = []
-    for item in dictionary.get(bestUser):
-        if ((item in prefs) != True):
-            rec += [item]
-   
-    if (rec == []):
-        return print("No preferences available at this time.")
-    for artist in rec:
-        print(artist)
-
-def edit(list1, list2):
-    """returns a new list that contains only the elements in list2 not in list1
-        Emma Millet
-    """
-    newL = []
-    for item in list2:
-        if ((item in list1) != True):
-            newL += [item]
-    return newL
 
 def numMatches(list1, list2):
     """ return the num of elements that match between two sorted lists
@@ -243,12 +168,31 @@ def m():
             artist = key
     print(artist)
     return choices()
+
+def d(u):
+    print(u)
+    a = input("Remove an artist that you hate (Enter to finish): ")
+    if a == '':
+        f.pop(globalUsername)
+        a = {globalUsername: u}
+        f.update(a)
+        choices()
+    L = u
+    if a not in L:
+        d(L)
+    else:
+        L.remove(a)
+        return d(L)
+
+def s(u):
+    print(u)
+    return choices()
    
 def choices():
     '''Provides menu options and handles user input
     Written by Steven Munson, Modified by Emma Millet '''
 
-    choice = input("Enter a letter to choose an option:\ne - Enter preferences\nr - Get recommendations\np - Show most popular artists\nh - How popular is the most popular\nm - Which user has the most likes\nq - Save and quit\n")
+    choice = input("Enter a letter to choose an option:\ne - Enter preferences\nd - Delete preferences\ns - Show preferences\nr - Get recommendations\np - Show most popular artists\nh - How popular is the most popular\nm - Which user has the most likes\nq - Save and quit\n")
    
     while choice != 'q':
         if choice == 'e': e()
@@ -256,8 +200,10 @@ def choices():
         if choice == 'p': p()
         if choice == 'h': h()
         if choice == 'm': m()
+        if choice == 'd': d(list(f[globalUsername]))
+        if choice == 's': s(list(f[globalUsername]))
         else:
-            choice = input("Enter a letter to choose an option:\ne - Enter preferences\nr - Get recommendations\np - Show most popular artists\nh - How popular is the most popular\nm - Which user has the most likes\nq - Save and quit\n")
+            choice = input("Enter a letter to choose an option:\ne - Enter preferences\nd - Delete preferences\ns - Show preferences\nr - Get recommendations\np - Show most popular artists\nh - How popular is the most popular\nm - Which user has the most likes\nq - Save and quit\n")
 
     with open('musicrecplus.txt', "r+") as file:
             for user in globalDict:
@@ -265,24 +211,18 @@ def choices():
                 file.seek(0)
                 file.write(str(user) + ":" + ",".join(globalDict[user]) +
                         "\n")
-            for user in globalDict:
-                file.write(str(user) + ":" + ",".join(globalDict[user]) +
-                        "\n")
     file.close()
+    quit
 
 try:
-    with open('musicrecplus.txt', 'x') as f:
-        f.write('')
+    with open('musicrecplus.txt', 'w') as a:
+        f = read_preferences("musicrecplus.txt")
 except FileExistsError:
-    pass
-
-f = read_preferences("musicrecplus.txt")
-
+    f = read_preferences("musicrecplus.txt")
 
 name_artists = input("Enter your name (put a $ symbol after your name if you wish your preferences to remain private): ")
 global globalUsername
 globalUsername = name_artists
-
 
 if name_artists not in f:
     a = {name_artists: []}

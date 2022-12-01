@@ -170,6 +170,8 @@ def m():
     return choices()
 
 def d(u):
+    '''Removes artist from your likes.
+    Steven Munson'''
     print(u)
     a = input("Remove an artist that you hate (Enter to finish): ")
     if a == '':
@@ -185,12 +187,14 @@ def d(u):
         return d(L)
 
 def s(u):
+    '''Prints the current user's preferences
+    Steven Munson'''
     print(u)
     return choices()
    
 def choices():
     '''Provides menu options and handles user input
-    Written by Steven Munson, Modified by Emma Millet '''
+    Written by Steven Munson and Emma Millet '''
 
     choice = input("Enter a letter to choose an option:\ne - Enter preferences\nd - Delete preferences\ns - Show preferences\nr - Get recommendations\np - Show most popular artists\nh - How popular is the most popular\nm - Which user has the most likes\nq - Save and quit\n")
    
@@ -207,22 +211,25 @@ def choices():
 
     with open('musicrecplus.txt', "r+") as file:
             for user in globalDict:
-                file.truncate()
-                file.seek(0)
+                
                 file.write(str(user) + ":" + ",".join(globalDict[user]) +
                         "\n")
     file.close()
-    quit
+    exit()
 
 try:
-    with open('musicrecplus.txt', 'w') as a:
-        f = read_preferences("musicrecplus.txt")
+    with open('musicrecplus.txt', 'x') as f:
+        f.write('')
 except FileExistsError:
-    f = read_preferences("musicrecplus.txt")
+    pass
+
+f = read_preferences("musicrecplus.txt")
+
 
 name_artists = input("Enter your name (put a $ symbol after your name if you wish your preferences to remain private): ")
 global globalUsername
 globalUsername = name_artists
+
 
 if name_artists not in f:
     a = {name_artists: []}
